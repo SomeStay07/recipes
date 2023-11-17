@@ -12,6 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         SUIRecipesKit.hello()
         SUIRecipesUI.hello()
+        
+        ThemeManager.shared.themes = [
+            .light: ThemeStorage.light,
+            .dark: ThemeStorage.dark
+        ]
 
         return true
     }
