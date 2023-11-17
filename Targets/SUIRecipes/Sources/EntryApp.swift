@@ -4,9 +4,11 @@ import SwiftUI
 struct EntryApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
+    @ObservedObject private var themeManager = ThemeManager.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentApp()
+            ContentApp().environmentObject(themeManager)
         }
     }
     
@@ -28,6 +30,6 @@ struct ContentApp: View {
             Text("4")
             .tabItem { Label("Профиль", systemImage: "person.circle.fill") }
         }
-        .accentColor(.red)
+        .accentColor(.label.secondary)
     }
 }
