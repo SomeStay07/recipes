@@ -12,9 +12,11 @@ struct DarkColors: Colors {
 struct DarkBackgroundColors: BackgroundColors {
     let primary: Color = .blue
     let secondary: Color = .blue.opacity(0.5)
+    let ghost: Color = .gray.opacity(0.6)
 }
 
 struct DarkLabelColors: LabelColors {
     let primary: Color = .green
     let secondary: Color = .green.opacity(0.5)
+    let tertiary: Color = .gray.opacity(0.8)
 }
