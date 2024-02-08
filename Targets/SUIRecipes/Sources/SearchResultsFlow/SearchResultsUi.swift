@@ -45,8 +45,7 @@ struct SearchResultsUi: View {
         VStack {
             HStack {
                 Text(title)
-                    .font(.callout)
-                    .fontWeight(.bold)
+                .font(.description.customWeight(.heavy))
                 
                 Spacer()
                 
