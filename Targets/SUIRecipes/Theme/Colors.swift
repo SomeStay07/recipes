@@ -8,9 +8,11 @@ protocol Colors {
 protocol BackgroundColors {
     var primary: Color { get }
     var secondary: Color { get }
+    var ghost: Color { get }
 }
 
 protocol LabelColors {
     var primary: Color { get }
     var secondary: Color { get }
+    var tertiary: Color { get }
 }
