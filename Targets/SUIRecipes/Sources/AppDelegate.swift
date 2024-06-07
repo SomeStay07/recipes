@@ -12,6 +12,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         SUIRecipesKit.hello()
         SUIRecipesUI.hello()
+        
+        CustomFontManager.registerCustomFonts()
+        
+        ThemeManager.shared.themes = [
+            .light: ThemeStorage.light,
+            .dark: ThemeStorage.dark
+        ]
 
         return true
     }
