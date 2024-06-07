@@ -14,7 +14,7 @@ final class ThemeManager: ObservableObject {
     
     private init(
         themes: [ThemeTypes: Theme] = [:],
-        currentThemeType: ThemeTypes = .dark
+        currentThemeType: ThemeTypes = .light
     ) {
         self.themes = themes
         self.currentThemeType = currentThemeType

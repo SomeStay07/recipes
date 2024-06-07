@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - SearchResultsUi
+
 struct SearchResultsUi: View {
     
     private let historyData: [String] = [
@@ -15,11 +17,14 @@ struct SearchResultsUi: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             header
             search
         }
+        .background(Color.white)
     }
+    
+    // MARK: - search
     
     var search: some View {
         ScrollView(showsIndicators: false) {
@@ -61,7 +66,7 @@ struct SearchResultsUi: View {
             .opacity(isDividerExist ? 1 : 0)
         }
         .padding(.horizontal, 35)
-        .foregroundColor(.gray)
+        .foregroundColor(.label.secondary)
     }
     
 }
@@ -74,20 +79,18 @@ private extension SearchResultsUi {
         ZStack(alignment: .top) {
             headerImage
             
-            HStack(spacing: 0) {
+            HStack {
                 backButton
                 Spacer()
                 helpTooltip
             }
-            .padding(.horizontal, 55)
+            .padding(.horizontal, 16)
         }
-        .background(Color.green)
     }
     
     var headerImage: some View {
         Image("search-result-background")
         .resizable()
-        .scaledToFill()
         .ignoresSafeArea()
     }
     
@@ -111,8 +114,7 @@ private extension SearchResultsUi {
         .resizable()
         .scaledToFit()
         .frame(width: 20, height: 14)
-        .foregroundColor(.white)
-        .offset(x: 2)
+        .foregroundColor(.label.primary)
     }
     
     var helpTooltip: some View {
@@ -123,7 +125,7 @@ private extension SearchResultsUi {
         .padding(.vertical, 8)
         .padding(.horizontal, 8)
         .background(
-            Color.white.opacity(0.7),
+            Color.background.primary.opacity(0.7),
             in: RoundedRectangle(cornerRadius: 12)
         )
     }
@@ -131,7 +133,7 @@ private extension SearchResultsUi {
     var helpTooltipTitle: some View {
         Text("Swipe to search by ingredients")
         .font(.callout)
-        .foregroundColor(.black)
+        .foregroundColor(.label.primary)
         .fontWeight(.bold)
     }
     
@@ -140,7 +142,7 @@ private extension SearchResultsUi {
         .resizable()
         .scaledToFit()
         .frame(width: 10, height: 8)
-        .foregroundColor(.black)
+        .foregroundColor(.label.primary)
         .rotationEffect(.degrees(180))
     }
     

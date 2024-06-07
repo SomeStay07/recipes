@@ -11,13 +11,14 @@ struct LightColors: Colors {
 }
 
 struct LightBackgroundColors: BackgroundColors {
-    let primary: Color = .red
-    let secondary: Color = .red.opacity(0.5)
-    let ghost: Color = .gray.opacity(0.6)
+    let primary: Color = .primary
+    let secondary: Color = .secondary
+    let ghost: Color = .gray
+    let tertiaty: Color = .gray.opacity(0.2)
 }
 
 struct LightLabelColors: LabelColors {
-    let primary: Color = .yellow
-    let secondary: Color = .yellow.opacity(0.5)
+    let primary: Color = .white
+    let secondary: Color = .gray
     let tertiary: Color = .gray.opacity(0.8)
 }
