@@ -1,31 +1,34 @@
 import ProjectDescription
-import ProjectDescriptionHelpers
-import MyPlugin
 
-/*
-                +-------------+
-                |             |
-                |     App     | Contains SUIRecipes App target and SUIRecipes unit-test target
-                |             |
-         +------+-------------+-------+
-         |         depends on         |
-         |                            |
- +----v-----+                   +-----v-----+
- |          |                   |           |
- |   Kit    |                   |     UI    |   Two independent frameworks to share code and start modularising your app
- |          |                   |           |
- +----------+                   +-----------+
-
- */
-
-// MARK: - Project
-
-// Local plugin loaded
-let localHelper = LocalHelper(name: "MyPlugin")
-
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(
-    name: "SUIRecipes",
-    platform: .iOS,
-    additionalTargets: ["SUIRecipesKit", "SUIRecipesUI"]
+let project = Project(
+    name: "recepies",
+    targets: [
+        .target(
+            name: "recepies",
+            destinations: .iOS,
+            product: .app,
+            bundleId: "io.tuist.recepies",
+            infoPlist: .extendingDefault(
+                with: [
+                    "UILaunchScreen": [
+                        "UIColorName": "",
+                        "UIImageName": "",
+                    ],
+                ]
+            ),
+            sources: ["recepies/Sources/**"],
+            resources: ["recepies/Resources/**"],
+            dependencies: []
+        ),
+        .target(
+            name: "recepiesTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "io.tuist.recepiesTests",
+            infoPlist: .default,
+            sources: ["recepies/Tests/**"],
+            resources: [],
+            dependencies: [.target(name: "recepies")]
+        ),
+    ]
 )
