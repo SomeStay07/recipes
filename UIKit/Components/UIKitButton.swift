@@ -48,6 +48,9 @@ enum UIKitButtonState {
 // MARK: - UIKitButton
 
 struct UIKitButton: View {
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
     private let title: String
     private let isExpanded: Bool
     private let image: UIKitButtonImage?
@@ -135,8 +138,7 @@ private extension UIKitButton {
 private extension UIKitButton {
     
     var text: some View {
-        Text(title)
-        .font(stateConfiguration.font.customWeight(stateConfiguration.weight))
+        Text(title).font(stateConfiguration.font.customWeight(stateConfiguration.weight))
     }
     
 }

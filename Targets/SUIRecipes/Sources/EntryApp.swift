@@ -16,6 +16,11 @@ struct EntryApp: App {
 }
 
 struct ContentApp: View {
+    
+    @StateObject private var settingsViewModel = SettingsViewModel(
+        cacheService: CacheServiceImpl()
+    )
+    
     var body: some View {
         TabView {
             SearchResultsUi()
@@ -26,11 +31,13 @@ struct ContentApp: View {
             .tabItem { Label("Home", systemImage: "person.circle.fill") }
             
             Text("3")
-            .tabItem { Label("tab.item.favorites", systemImage: "bookmark.fill") }
-            
-            SearchResultsUi()
             .tabItem {
-                Label("Профиль", systemImage: "person.circle.fill")
+                Label("tab.item.favorites", systemImage: "bookmark.fill")
+            }
+            
+            SettingsView(viewModel: settingsViewModel)
+            .tabItem {
+                Label("Настройки", systemImage: "person.circle.fill")
             }
         }
         .accentColor(.label.secondary)

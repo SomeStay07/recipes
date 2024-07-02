@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HomeUi: View {
+struct HomeView: View {
     
     var body: some View {
         NavigationView {
@@ -29,7 +29,7 @@ struct HomeUi: View {
 
 // MARK: - Toolbar image
 
-private extension HomeUi {
+private extension HomeView {
     
     func toolbarImage(name: String) -> some View {
         Image(systemName: name)
@@ -44,7 +44,7 @@ private extension HomeUi {
 
 // MARK: Toolbar title
 
-private extension HomeUi {
+private extension HomeView {
     
     var toolbarTitle: some View {
         Text("Maxim, Cibulsky")
@@ -56,5 +56,5 @@ private extension HomeUi {
 }
 
 #Preview {
-    HomeUi()
+    HomeView()
 }

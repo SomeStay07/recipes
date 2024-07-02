@@ -4,6 +4,8 @@ import SwiftUI
 
 struct SearchResultsUi: View {
     
+    @EnvironmentObject var themeManager: ThemeManager
+    
     private let historyData: [String] = [
         "My search history",
         "My favourite recipes",
