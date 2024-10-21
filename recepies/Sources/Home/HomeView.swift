@@ -5,24 +5,24 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Изменяем цвет фона для конфликта
-                Color.blue.opacity(0.3).ignoresSafeArea()
+                // Изменяем цвет фона на другой для конфликта
+                Color.red.opacity(0.1).ignoresSafeArea()
                 
                 // Изменяем текст для конфликта
-                Text("Welcome")
+                Text("Hello, Swift!")
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    HStack(spacing: 10) { // Изменяем spacing для конфликта
-                        toolbarImage(name: "globe") // Изменяем иконку для конфликта
+                    HStack(spacing: 20) { // Изменяем spacing для конфликта
+                        toolbarImage(name: "star.fill") // Изменяем иконку для конфликта
                         toolbarTitle
-                        toolbarImage(name: "chevron.up") // Изменяем иконку для конфликта
+                        toolbarImage(name: "arrow.down") // Изменяем иконку для конфликта
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     // Меняем размер круга для конфликта
-                    Circle().frame(width: 50, height: 50)
+                    Circle().frame(width: 30, height: 30)
                 }
             }
         }
@@ -37,10 +37,10 @@ private extension HomeView {
     func toolbarImage(name: String) -> some View {
         Image(systemName: name)
         .resizable()
-        .aspectRatio(contentMode: .fill) // Изменяем contentMode для конфликта
-        .frame(width: 18, height: 18) // Меняем размер для конфликта
-        .foregroundStyle(.primary) // Меняем стиль для конфликта
-        .padding(.horizontal, 4) // Меняем отступы для конфликта
+        .aspectRatio(contentMode: .fit) // Изменяем contentMode для конфликта
+        .frame(width: 25, height: 25) // Меняем размер для конфликта
+        .foregroundStyle(.secondary) // Меняем стиль для конфликта
+        .padding(.vertical, 6) // Меняем отступы для конфликта
     }
     
 }
@@ -51,10 +51,10 @@ private extension HomeView {
     
     var toolbarTitle: some View {
         // Изменяем текст для конфликта
-        Text("Alex, New York")
-        .font(.headline) // Меняем шрифт для конфликта
-        .foregroundStyle(.secondary) // Меняем цвет для конфликта
-        .border(Color.red) // Меняем цвет границы для конфликта
+        Text("John, London")
+        .font(.title) // Меняем шрифт для конфликта
+        .foregroundStyle(.primary) // Меняем цвет для конфликта
+        .border(Color.green) // Меняем цвет границы для конфликта
     }
     
 }
