@@ -5,21 +5,24 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.green.opacity(0.2).ignoresSafeArea()
+                // Изменяем цвет фона для конфликта
+                Color.blue.opacity(0.3).ignoresSafeArea()
                 
-                Text("Hello")
+                // Изменяем текст для конфликта
+                Text("Welcome")
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    HStack(spacing: 14) {
-                        toolbarImage(name: "location.viewfinder")
+                    HStack(spacing: 10) { // Изменяем spacing для конфликта
+                        toolbarImage(name: "globe") // Изменяем иконку для конфликта
                         toolbarTitle
-                        toolbarImage(name: "chevron.down")
+                        toolbarImage(name: "chevron.up") // Изменяем иконку для конфликта
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Circle().frame(width: 42, height: 42)
+                    // Меняем размер круга для конфликта
+                    Circle().frame(width: 50, height: 50)
                 }
             }
         }
@@ -34,10 +37,10 @@ private extension HomeView {
     func toolbarImage(name: String) -> some View {
         Image(systemName: name)
         .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 21, height: 21)
-        .foregroundStyle(.secondary)
-        .padding(.vertical, 2)
+        .aspectRatio(contentMode: .fill) // Изменяем contentMode для конфликта
+        .frame(width: 18, height: 18) // Меняем размер для конфликта
+        .foregroundStyle(.primary) // Меняем стиль для конфликта
+        .padding(.horizontal, 4) // Меняем отступы для конфликта
     }
     
 }
@@ -47,10 +50,11 @@ private extension HomeView {
 private extension HomeView {
     
     var toolbarTitle: some View {
-        Text("Maxim, Cibulsky")
-        .font(.caption)
-        .foregroundStyle(.primary)
-        .border(Color.blue)
+        // Изменяем текст для конфликта
+        Text("Alex, New York")
+        .font(.headline) // Меняем шрифт для конфликта
+        .foregroundStyle(.secondary) // Меняем цвет для конфликта
+        .border(Color.red) // Меняем цвет границы для конфликта
     }
     
 }
