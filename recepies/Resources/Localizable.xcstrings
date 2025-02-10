@@ -1,0 +1,104 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "2" : {
+
+    },
+    "3" : {
+
+    },
+    "Download" : {
+
+    },
+    "Home" : {
+
+    },
+    "Jose Phonie" : {
+
+    },
+    "Language" : {
+
+    },
+    "Logout" : {
+
+    },
+    "Maxim, Cibulsky" : {
+
+    },
+    "Privacy" : {
+
+    },
+    "settings.menu.theme" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thema"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tema"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Тема"
+          }
+        }
+      }
+    },
+    "Swipe to search by ingredients" : {
+
+    },
+    "tab.item.favorites" : {
+
+    },
+    "tab.item.home" : {
+
+    },
+    "Theme" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тема"
+          }
+        }
+      }
+    },
+    "Version: %@" : {
+
+    },
+    "Welcome" : {
+
+    },
+    "Wishlist" : {
+
+    },
+    "Настройки" : {
+
+    }
+  },
+  "version" : "1.0"
+}

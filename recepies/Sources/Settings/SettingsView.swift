@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
+    @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var languageManager: LanguageManager
     @ObservedObject private var viewModel: SettingsViewModel
     
     // MARK: - Init
@@ -17,6 +19,18 @@ struct SettingsView: View {
             header
             menu
         }
+        .background(
+            LinearGradient(
+                gradient: Gradient(
+                    colors: [
+                        Color.background.primary,
+                        Color.background.secondary
+                    ]
+                ),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 }
 
@@ -25,27 +39,21 @@ struct SettingsView: View {
 private extension SettingsView {
     
     var header: some View {
-        VStack(spacing: 0) {
-            Image(systemName: "apple.logo")
+        VStack {
+            Image("settings-background")
             .resizable()
             .scaledToFit()
-            .frame(width: 88, height: 88)
+            .cornerRadius(16, corners: .allCorners)
+            .shadow(radius: 8)
+            .foregroundStyle(Color.label.secondary)
             
-            VStack(spacing: 12) {
-                Text("Jose Phonie")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundColor(Color(.label))
-                
-                Text("JosePhonie123@gmail.com")
-                .font(.callout)
-                .fontWeight(.thin)
-                .multilineTextAlignment(.center)
-            }
-            .padding(.top, 15)
-            .padding(.horizontal, 12)
-            .padding(.bottom, 32)
+            Text("Jose Phonie")
+            .font(.title3)
+            .fontWeight(.bold)
+            .foregroundStyle(Color.element.primary)
+            .padding(.vertical, 15)
         }
+        .padding(16)
     }
     
 }
@@ -72,10 +80,10 @@ private extension SettingsView {
         Text(title)
         .font(.title2)
         .fontWeight(.semibold)
-        .foregroundColor(.black)
+        .foregroundStyle(Color.label.primary)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(10)
-        .background(Color.gray, in: RoundedRectangle(cornerRadius: 16.0))
+        .background(Color.background.ghost, in: RoundedRectangle(cornerRadius: 16.0))
         .padding(.leading, 16)
         .padding(.trailing, 31)
     }
@@ -99,10 +107,7 @@ private extension SettingsView {
                 case .language: getLanguageCell(showDivider: showDivider)
                 case .logout: getLogoutCell(showDivider: showDivider)
                 case .privacy: getPrivacyCell(showDivider: showDivider)
-                case .version(let name): getVersionCell(
-                    showDivider: showDivider,
-                    version: name
-                )
+                case .version(let name): getVersionCell(showDivider: showDivider, version: name)
                 }
             }
         }
@@ -172,16 +177,17 @@ private extension SettingsView {
         VStack(spacing: showDivider ? 12 : 0) {
             HStack {
                 setupCell(icon: "moon")
-                setupCell(title: "Dark mode")
+                setupCell(title: LocalizedStringKey("settings.menu.theme"))
                 
                 Spacer()
                 
-                Toggle(isOn: Binding<Bool>(
-                    get: { viewModel.themeTypes == .dark },
-                    set: { newValue in
-                        viewModel.themeTypes = newValue ? .dark : .light
+                Picker("Theme", selection: $themeManager.currentThemeType) {
+                    ForEach(ThemeTypes.allCases, id: \.id) { theme in
+                        Text(theme.displayName).tag(theme)
                     }
-                )) {}
+                }
+                .pickerStyle(.menu)
+                .tint(Color.label.primary)
             }
             
             Divider().opacity(showDivider ? 1 : 0)
@@ -205,7 +211,13 @@ private extension SettingsView {
                         
                         Spacer()
                         
-                        chevron
+                        Picker("Language", selection: $languageManager.currentLanguage) {
+                            ForEach(LanguageType.allCases, id: \.id) { lang in
+                                Text(lang.displayName).tag(lang)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .tint(Color.label.primary)
                     }
                     
                     Divider().opacity(showDivider ? 1 : 0)
@@ -213,7 +225,6 @@ private extension SettingsView {
             }
         )
     }
-    
 }
 
 // MARK: - Logout cell
@@ -298,7 +309,7 @@ private extension SettingsView {
         .resizable()
         .scaledToFit()
         .frame(width: 24, height: 24)
-        .foregroundColor(.gray)
+        .foregroundStyle(Color.label.primary)
     }
     
 }
@@ -307,10 +318,10 @@ private extension SettingsView {
 
 private extension SettingsView {
     
-    func setupCell(title: String) -> some View {
+    func setupCell(title: LocalizedStringKey) -> some View {
         Text(title)
         .font(.headline)
-        .foregroundColor(Color(.label))
+        .foregroundStyle(Color.label.primary)
         .padding(.leading, 10)
     }
     
@@ -321,11 +332,7 @@ private extension SettingsView {
 private extension SettingsView {
     
     var chevron: some View {
-        Image(systemName: "chevron.right")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 24, height: 24)
-        .foregroundColor(.gray)
+        setupCell(icon: "chevron.right")
     }
     
 }

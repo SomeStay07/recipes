@@ -5,11 +5,15 @@ struct RecepiesApp: App {
     
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
+    @ObservedObject private var languageManager = LanguageManager.shared
     @ObservedObject private var themeManager = ThemeManager.shared
     
     var body: some Scene {
         WindowGroup {
-            ContentApp().environmentObject(themeManager)
+            ContentApp()
+                .environmentObject(themeManager)
+                .environmentObject(languageManager)
+                .environment(\.locale, languageManager.selectedLanguage)
         }
     }
     

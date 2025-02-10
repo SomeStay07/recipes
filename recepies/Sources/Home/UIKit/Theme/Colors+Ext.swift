@@ -9,4 +9,8 @@ extension Color {
     static var label: LabelColors {
         ThemeManager.shared.currentTheme.colors.label
     }
+    
+    static var element: ElementColors {
+        ThemeManager.shared.currentTheme.colors.element
+    }
 }

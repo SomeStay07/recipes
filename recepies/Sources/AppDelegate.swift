@@ -12,9 +12,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ThemeManager.shared.themes = [
             .light: ThemeStorage.light,
-            .dark: ThemeStorage.dark
+            .dark: ThemeStorage.dark,
+            .newYear: ThemeStorage.newYear
         ]
-
+        
         return true
     }
 
