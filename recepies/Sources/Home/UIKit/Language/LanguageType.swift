@@ -1,24 +1,24 @@
-import Foundation
+import SwiftUI
 
 enum LanguageType: String, CaseIterable, Identifiable {
     case system
     case ru
     case en
-    
+
     var id: String { rawValue }
-    
+
     var localeIdentifier: String? {
         self == .system ? nil : rawValue
     }
-    
-    var displayName: String {
+
+    var displayName: LocalizedStringKey {
         switch self {
         case .ru:
-            "Русский"
+            "language.ru"
         case .en:
-            "English"
-        default:
-            "Системная"
+            "language.en"
+        case .system:
+            "language.system"
         }
     }
 }

@@ -133,7 +133,7 @@ private extension SearchResultsUi {
     }
     
     var helpTooltipTitle: some View {
-        Text("Swipe to search by ingredients")
+        Text("search.tooltip.swipe")
         .font(.callout)
         .foregroundColor(.label.primary)
         .fontWeight(.bold)

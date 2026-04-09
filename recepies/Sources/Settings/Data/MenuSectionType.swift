@@ -1,15 +1,15 @@
-import Foundation
+import SwiftUI
 
 enum MenuSectionType {
     case media
     case preferences
     case account
-    
-    var title: String {
+
+    var title: LocalizedStringKey {
         switch self {
-        case .media: return "Media"
-        case .preferences: return "Preferences"
-        case .account: return "Account"
+        case .media: "settings.section.media"
+        case .preferences: "settings.section.preferences"
+        case .account: "settings.section.account"
         }
     }
 }

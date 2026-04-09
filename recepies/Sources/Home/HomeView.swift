@@ -7,7 +7,7 @@ struct HomeView: View {
             ZStack {
                 Color.green.opacity(0.2).ignoresSafeArea()
                 
-                Text("Welcome")
+                Text("home.welcome")
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -47,7 +47,7 @@ private extension HomeView {
 private extension HomeView {
     
     var toolbarTitle: some View {
-        Text("Maxim, Cibulsky")
+        Text("home.toolbar.title")
         .font(.caption)
         .foregroundStyle(.primary)
         .border(Color.blue)

@@ -1,13 +1,13 @@
-import Foundation
+import SwiftUI
 
 enum ThemeTypes: Int, Codable, CaseIterable, Identifiable {
     case unspecified
     case light
     case dark
     case newYear
-    
+
     var id: Int { rawValue }
-    
+
     init?(rawValue: Int) {
         switch rawValue {
         case 0: self = .unspecified
@@ -17,17 +17,17 @@ enum ThemeTypes: Int, Codable, CaseIterable, Identifiable {
         default: self = .unspecified
         }
     }
-    
-    var displayName: String {
+
+    var displayName: LocalizedStringKey {
         switch self {
         case .unspecified:
-            "Не выбранный"
+            "theme.unspecified"
         case .light:
-            "Светлая"
+            "theme.light"
         case .dark:
-            "Тёмная"
+            "theme.dark"
         case .newYear:
-            "Новогодняя"
+            "theme.newYear"
         }
     }
 }
