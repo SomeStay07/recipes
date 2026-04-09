@@ -47,7 +47,7 @@ private extension SettingsView {
             .shadow(radius: 8)
             .foregroundStyle(Color.label.secondary)
             
-            Text("Jose Phonie")
+            Text("settings.profile.name")
             .font(.title3)
             .fontWeight(.bold)
             .foregroundStyle(Color.element.primary)
@@ -76,7 +76,7 @@ private extension SettingsView {
         }
     }
     
-    func menuSection(title: String) -> some View {
+    func menuSection(title: LocalizedStringKey) -> some View {
         Text(title)
         .font(.title2)
         .fontWeight(.semibold)
@@ -128,7 +128,7 @@ private extension SettingsView {
                 VStack(spacing: showDivider ? 12 : 0) {
                     HStack {
                         setupCell(icon: "heart")
-                        setupCell(title: "Wishlist")
+                        setupCell(title: "settings.menu.wishlist")
                         
                         Spacer()
                         
@@ -154,7 +154,7 @@ private extension SettingsView {
                 VStack(spacing: showDivider ? 12 : 0) {
                     HStack {
                         setupCell(icon: "icloud.and.arrow.down")
-                        setupCell(title: "Download")
+                        setupCell(title: "settings.menu.download")
                         
                         Spacer()
                         
@@ -177,11 +177,11 @@ private extension SettingsView {
         VStack(spacing: showDivider ? 12 : 0) {
             HStack {
                 setupCell(icon: "moon")
-                setupCell(title: LocalizedStringKey("settings.menu.theme"))
-                
+                setupCell(title: "settings.menu.theme")
+
                 Spacer()
-                
-                Picker("Theme", selection: $themeManager.currentThemeType) {
+
+                Picker("settings.menu.theme", selection: $themeManager.currentThemeType) {
                     ForEach(ThemeTypes.allCases, id: \.id) { theme in
                         Text(theme.displayName).tag(theme)
                     }
@@ -207,11 +207,11 @@ private extension SettingsView {
                 VStack(spacing: showDivider ? 12 : 0) {
                     HStack {
                         setupCell(icon: "globe.badge.chevron.backward")
-                        setupCell(title: "Language")
-                        
+                        setupCell(title: "settings.menu.language")
+
                         Spacer()
-                        
-                        Picker("Language", selection: $languageManager.currentLanguage) {
+
+                        Picker("settings.menu.language", selection: $languageManager.currentLanguage) {
                             ForEach(LanguageType.allCases, id: \.id) { lang in
                                 Text(lang.displayName).tag(lang)
                             }
@@ -238,7 +238,7 @@ private extension SettingsView {
                 VStack(spacing: showDivider ? 12 : 0) {
                     HStack {
                         setupCell(icon: "rectangle.portrait.and.arrow.forward")
-                        setupCell(title: "Logout")
+                        setupCell(title: "settings.menu.logout")
                         
                         Spacer()
                         
@@ -264,7 +264,7 @@ private extension SettingsView {
                 VStack(spacing: showDivider ? 12 : 0) {
                     HStack {
                         setupCell(icon: "person.badge.shield.checkmark.fill")
-                        setupCell(title: "Privacy")
+                        setupCell(title: "settings.menu.privacy")
                         
                         Spacer()
                         
@@ -284,10 +284,11 @@ private extension SettingsView {
 private extension SettingsView {
     
     func getVersionCell(showDivider: Bool, version: String) -> some View {
-        VStack(spacing: showDivider ? 12 : 0) {
+        let title: LocalizedStringKey = "settings.menu.version \(version)"
+        return VStack(spacing: showDivider ? 12 : 0) {
             HStack {
                 setupCell(icon: "doc.append.fill.rtl")
-                setupCell(title: "Version: \(version)")
+                setupCell(title: title)
                 
                 Spacer()
                 

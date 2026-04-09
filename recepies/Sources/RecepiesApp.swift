@@ -31,17 +31,17 @@ struct ContentApp: View {
             .badge(2)
             .tabItem { Label("tab.item.home", systemImage: "person.circle.fill") }
             
-            Text("2")
-            .tabItem { Label("Home", systemImage: "person.circle.fill") }
-            
-            Text("3")
+            Text(verbatim: "2")
+            .tabItem { Label("tab.item.discover", systemImage: "person.circle.fill") }
+
+            Text(verbatim: "3")
             .tabItem {
                 Label("tab.item.favorites", systemImage: "bookmark.fill")
             }
-            
+
             SettingsView(viewModel: settingsViewModel)
             .tabItem {
-                Label("Настройки", systemImage: "person.circle.fill")
+                Label("tab.item.settings", systemImage: "person.circle.fill")
             }
         }
         .accentColor(.label.secondary)
