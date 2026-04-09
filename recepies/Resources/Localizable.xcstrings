@@ -7,28 +7,14 @@
     "3" : {
 
     },
-    "Download" : {
-
-    },
-    "Home" : {
-
-    },
     "Jose Phonie" : {
-
-    },
-    "Language" : {
-
-    },
-    "Logout" : {
 
     },
     "Maxim, Cibulsky" : {
 
     },
-    "Privacy" : {
-
-    },
     "settings.menu.theme" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -59,13 +45,8 @@
     "Swipe to search by ingredients" : {
 
     },
-    "tab.item.favorites" : {
-
-    },
-    "tab.item.home" : {
-
-    },
     "Theme" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -87,16 +68,7 @@
         }
       }
     },
-    "Version: %@" : {
-
-    },
     "Welcome" : {
-
-    },
-    "Wishlist" : {
-
-    },
-    "Настройки" : {
 
     }
   },
