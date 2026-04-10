@@ -6,69 +6,140 @@ struct SearchResultsUi: View {
     
     @EnvironmentObject var themeManager: ThemeManager
     
-    private let historyData: [String] = [
-        "My search history",
-        "My favourite recipes",
-        "My favourite recipes",
-        "My favourite recipes",
-        "My favourite recipes",
-        "Easy Mexican Casserole",
-        "My favourite recipes",
-        "My favourite recipes",
-        "My favourite recipes",
-    ]
+    @State private var store = SearchStore()
+    @State private var queryInput: String = ""
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             header
-            search
+            sheet
         }
-        .background(Color.white)
+        .background(Color.background.primary)
     }
     
-    // MARK: - search
+    // MARK: - Sheet
     
-    var search: some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
-                ForEach(historyData.indices, id: \.self) { index in
-                    cell(
-                        title: historyData[index],
-                        isDividerExist: historyData.count - 1 != index
-                    )
+    private var sheet: some View {
+        VStack(spacing: 0) {
+            searchField
+            content
+        }
+        .background(Color.background.primary)
+        .cornerRadius(24, corners: [.topLeft, .topRight])
+        .offset(y: -36)
+    }
+    
+    // MARK: - Search field
+    
+    private var searchField: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.label.secondary)
+            
+            TextField("search.tooltip.swipe", text: $queryInput)
+                .textFieldStyle(.plain)
+                .submitLabel(.search)
+                .onSubmit {
+                    store.send(.submit(queryInput))
+                }
+            
+            if queryInput.isEmpty == false {
+                Button {
+                    queryInput = ""
+                    store.send(.clear)
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.label.secondary)
                 }
             }
         }
-        .padding(.top, 6)
-        .background(Color.white)
-        .cornerRadius(24, corners: [.topLeft, .topRight])
-        .offset(x: 0, y: -36)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.background.ghost, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+        .padding(.bottom, 12)
     }
     
-    func cell(
-        title: String,
-        isDividerExist: Bool
-    ) -> some View {
-        VStack {
-            HStack {
-                Text(title)
-                .font(.description.customWeight(.heavy))
-                
-                Spacer()
-                
-                Image(systemName: "arrow.right")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 15, height: 11)
-            }
-            .padding(.vertical, 17)
-            
-            Divider()
-            .frame(height: 0.5)
-            .opacity(isDividerExist ? 1 : 0)
+    // MARK: - Content
+    
+    @ViewBuilder
+    private var content: some View {
+        switch store.state.phase {
+        case .idle:
+            list(items: store.state.history, isHistory: true)
+        case .loaded(let results):
+            list(items: results, isHistory: false)
+        case .empty:
+            emptyView
         }
-        .padding(.horizontal, 35)
-        .foregroundColor(.label.secondary)
+    }
+    
+    private func list(items: [String], isHistory: Bool) -> some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                ForEach(items.indices, id: \.self) { index in
+                    cell(
+                        title: items[index],
+                        isDividerExist: items.count - 1 != index,
+                        action: {
+                            if isHistory {
+                                store.send(.selectHistory(index))
+                                queryInput = items[index]
+                            }
+                        }
+                    )
+                }
+            }
+            .padding(.top, 4)
+        }
+    }
+    
+    private var emptyView: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .font(.largeTitle)
+                .foregroundColor(.label.secondary)
+            Text("search.empty.title")
+                .font(.headline)
+                .foregroundColor(.label.primary)
+            Text("search.empty.subtitle")
+                .font(.caption)
+                .foregroundColor(.label.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.vertical, 40)
+    }
+    
+    private func cell(
+        title: String,
+        isDividerExist: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            VStack {
+                HStack {
+                    Text(title)
+                        .font(.headline)
+                        .foregroundColor(.label.primary)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15, height: 11)
+                }
+                .padding(.vertical, 17)
+                
+                Divider()
+                    .frame(height: 0.5)
+                    .opacity(isDividerExist ? 1 : 0)
+            }
+            .padding(.horizontal, 35)
+            .foregroundColor(.label.secondary)
+        }
+        .buttonStyle(.plain)
     }
     
 }
@@ -91,9 +162,16 @@ private extension SearchResultsUi {
     }
     
     var headerImage: some View {
-        Image("search-result-background")
-        .resizable()
-        .ignoresSafeArea()
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color.background.secondary,
+                Color.background.primary
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .frame(height: 180)
+        .ignoresSafeArea(edges: .top)
     }
     
 }
@@ -113,10 +191,10 @@ private extension SearchResultsUi {
     
     var backButtonImage: some View {
         Image(systemName: "arrow.backward")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 20, height: 14)
-        .foregroundColor(.label.primary)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 14)
+            .foregroundColor(.label.primary)
     }
     
     var helpTooltip: some View {
@@ -134,18 +212,18 @@ private extension SearchResultsUi {
     
     var helpTooltipTitle: some View {
         Text("search.tooltip.swipe")
-        .font(.callout)
-        .foregroundColor(.label.primary)
-        .fontWeight(.bold)
+            .font(.callout)
+            .foregroundColor(.label.primary)
+            .fontWeight(.bold)
     }
     
     var helpTooltipImage: some View {
         Image(systemName: "chevron.left")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 10, height: 8)
-        .foregroundColor(.label.primary)
-        .rotationEffect(.degrees(180))
+            .resizable()
+            .scaledToFit()
+            .frame(width: 10, height: 8)
+            .foregroundColor(.label.primary)
+            .rotationEffect(.degrees(180))
     }
     
 }
@@ -153,3 +231,4 @@ private extension SearchResultsUi {
 #Preview {
     SearchResultsUi()
 }
+

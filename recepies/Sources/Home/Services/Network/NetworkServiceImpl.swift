@@ -43,5 +43,4 @@ final class NetworkServiceImpl: NetworkService {
         
         return response.statusCode ~= 200
     }
-    
 }
