@@ -39,6 +39,7 @@ struct SearchResultsUi: View {
             TextField("search.tooltip.swipe", text: $queryInput)
                 .textFieldStyle(.plain)
                 .submitLabel(.search)
+                .autocorrectionDisabled()
                 .onSubmit {
                     store.send(.submit(queryInput))
                 }
@@ -67,26 +68,31 @@ struct SearchResultsUi: View {
     private var content: some View {
         switch store.state.phase {
         case .idle:
-            list(items: store.state.history, isHistory: true)
-        case .loaded(let results):
-            list(items: results, isHistory: false)
+            historyList
+        case .loading:
+            loadingView
+        case .loaded(let recipes):
+            recipesList(recipes)
         case .empty:
             emptyView
+        case .failed(let error):
+            errorView(error)
         }
     }
     
-    private func list(items: [String], isHistory: Bool) -> some View {
+    // MARK: - History
+    
+    private var historyList: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                ForEach(items.indices, id: \.self) { index in
+                ForEach(store.state.history.indices, id: \.self) { index in
                     cell(
-                        title: items[index],
-                        isDividerExist: items.count - 1 != index,
+                        title: store.state.history[index],
+                        imageUrl: nil,
+                        isDividerExist: store.state.history.count - 1 != index,
                         action: {
-                            if isHistory {
-                                store.send(.selectHistory(index))
-                                queryInput = items[index]
-                            }
+                            queryInput = store.state.history[index]
+                            store.send(.selectHistory(index))
                         }
                     )
                 }
@@ -95,15 +101,30 @@ struct SearchResultsUi: View {
         }
     }
     
-    private var emptyView: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-                .font(.largeTitle)
-                .foregroundColor(.label.secondary)
-            Text("search.empty.title")
-                .font(.headline)
-                .foregroundColor(.label.primary)
-            Text("search.empty.subtitle")
+    // MARK: - Results
+    
+    private func recipesList(_ recipes: [Recipe]) -> some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                ForEach(Array(recipes.enumerated()), id: \.element.id) { index, recipe in
+                    cell(
+                        title: recipe.title,
+                        imageUrl: recipe.image,
+                        isDividerExist: recipes.count - 1 != index,
+                        action: {}
+                    )
+                }
+            }
+            .padding(.top, 4)
+        }
+    }
+    
+    // MARK: - Loading
+    
+    private var loadingView: some View {
+        VStack(spacing: 12) {
+            ProgressView()
+            Text("search.loading.title")
                 .font(.caption)
                 .foregroundColor(.label.secondary)
         }
@@ -111,16 +132,80 @@ struct SearchResultsUi: View {
         .padding(.vertical, 40)
     }
     
+    // MARK: - Empty
+    
+    private var emptyView: some View {
+        message(
+            systemImage: "magnifyingglass",
+            title: "search.empty.title",
+            subtitle: "search.empty.subtitle"
+        )
+    }
+    
+    // MARK: - Error
+    
+    private func errorView(_ error: SearchError) -> some View {
+        VStack(spacing: 16) {
+            message(
+                systemImage: "exclamationmark.triangle",
+                title: LocalizedStringKey(error.titleKey),
+                subtitle: LocalizedStringKey(error.subtitleKey)
+            )
+            
+            if error.isRetryable {
+                Button("search.error.retry") {
+                    store.send(.retry)
+                }
+                .font(.headline)
+                .foregroundColor(.label.primary)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+                .background(Color.background.ghost, in: RoundedRectangle(cornerRadius: 12))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private func message(
+        systemImage: String,
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey
+    ) -> some View {
+        VStack(spacing: 8) {
+            Image(systemName: systemImage)
+                .font(.largeTitle)
+                .foregroundColor(.label.secondary)
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.label.primary)
+            Text(subtitle)
+                .font(.caption)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.label.secondary)
+                .padding(.horizontal, 32)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+    }
+    
+    // MARK: - Cell
+    
     private func cell(
         title: String,
+        imageUrl: URL?,
         isDividerExist: Bool,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
             VStack {
-                HStack {
+                HStack(spacing: 12) {
+                    if let imageUrl {
+                        thumbnail(imageUrl)
+                    }
+                    
                     Text(title)
                         .font(.headline)
+                        .multilineTextAlignment(.leading)
                         .foregroundColor(.label.primary)
                     
                     Spacer()
@@ -140,6 +225,18 @@ struct SearchResultsUi: View {
             .foregroundColor(.label.secondary)
         }
         .buttonStyle(.plain)
+    }
+    
+    private func thumbnail(_ url: URL) -> some View {
+        AsyncImage(url: url) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            Color.background.ghost
+        }
+        .frame(width: 56, height: 56)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
     
 }
@@ -231,4 +328,3 @@ private extension SearchResultsUi {
 #Preview {
     SearchResultsUi()
 }
-
