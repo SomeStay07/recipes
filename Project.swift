@@ -1,4 +1,20 @@
+import Foundation
 import ProjectDescription
+
+let secretsPath = "Configs/Secrets.xcconfig"
+
+let secretsConfigurations: [Configuration] = {
+    guard FileManager.default.fileExists(atPath: secretsPath) else {
+        return []
+    }
+
+    let xcconfig = Path.relativeToRoot(secretsPath)
+
+    return [
+        .debug(name: "Debug", xcconfig: xcconfig),
+        .release(name: "Release", xcconfig: xcconfig)
+    ]
+}()
 
 let project = Project(
     name: "recepies",
@@ -14,11 +30,13 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "SpoonacularApiKey": "$(SPOONACULAR_API_KEY)",
                 ]
             ),
             sources: ["recepies/Sources/**"],
             resources: ["recepies/Resources/**"],
-            dependencies: []
+            dependencies: [],
+            settings: .settings(configurations: secretsConfigurations)
         ),
         .target(
             name: "recepiesTests",
