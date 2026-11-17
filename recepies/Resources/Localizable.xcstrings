@@ -151,6 +151,36 @@
         }
       }
     },
+    "search.attribution" : {
+      "comment" : "Attribution link to spoonacular under the results list, required by the free plan.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rezepte von spoonacular"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes by spoonacular"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricette da spoonacular"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рецепты: spoonacular"
+          }
+        }
+      }
+    },
     "search.empty.subtitle" : {
       "comment" : "Empty search results subtitle prompting user to retry.",
       "extractionState" : "manual",
@@ -278,55 +308,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trage deinen RapidAPI-Schlüssel in Configs/Secrets.xcconfig ein und baue die App neu."
+            "value" : "Prüfe deinen Spoonacular-Schlüssel in Configs/Secrets.xcconfig und baue die App neu."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add your RapidAPI key to Configs/Secrets.xcconfig and rebuild the app."
+            "value" : "Check your Spoonacular key in Configs/Secrets.xcconfig and rebuild the app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiungi la tua chiave RapidAPI in Configs/Secrets.xcconfig e ricompila l'app."
+            "value" : "Controlla la tua chiave Spoonacular in Configs/Secrets.xcconfig e ricompila l'app."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавь ключ RapidAPI в Configs/Secrets.xcconfig и пересобери приложение."
+            "value" : "Проверь ключ Spoonacular в Configs/Secrets.xcconfig и пересобери приложение."
           }
         }
       }
     },
     "search.error.key.title" : {
-      "comment" : "Error title shown when the API key is not configured.",
+      "comment" : "Error title shown when the API key is missing or rejected.",
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "API-Schlüssel fehlt"
+            "value" : "Problem mit dem API-Schlüssel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "API key is missing"
+            "value" : "API key problem"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chiave API mancante"
+            "value" : "Problema con la chiave API"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нет ключа API"
+            "value" : "Проблема с ключом API"
           }
         }
       }
@@ -338,25 +368,25 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der kostenlose RapidAPI-Plan ist für heute aufgebraucht."
+            "value" : "Der kostenlose Spoonacular-Plan ist für heute aufgebraucht."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The free RapidAPI plan is used up for today."
+            "value" : "The free Spoonacular plan is used up for today."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il piano gratuito RapidAPI è esaurito per oggi."
+            "value" : "Il piano gratuito Spoonacular è esaurito per oggi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Бесплатный план RapidAPI на сегодня закончился."
+            "value" : "Бесплатный план Spoonacular на сегодня закончился."
           }
         }
       }
@@ -482,37 +512,37 @@
       }
     },
     "search.error.access.subtitle" : {
-      "comment" : "Hint on how to subscribe to the free RapidAPI plan.",
+      "comment" : "Hint shown when the API denies access.",
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prüfe dein Abo für den kostenlosen Spoonacular-Plan auf RapidAPI und deinen Schlüssel, dann versuche es erneut."
+            "value" : "Prüfe deinen Spoonacular-Schlüssel und deinen Plan, dann versuche es erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check your subscription to the free Spoonacular plan on RapidAPI and your key, then try again."
+            "value" : "Check your Spoonacular key and plan, then try again."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controlla l'abbonamento al piano gratuito Spoonacular su RapidAPI e la tua chiave, poi riprova."
+            "value" : "Controlla la chiave e il piano Spoonacular, poi riprova."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверь подписку на бесплатный план Spoonacular в RapidAPI и свой ключ, потом попробуй снова."
+            "value" : "Проверь ключ и план Spoonacular, потом попробуй снова."
           }
         }
       }
     },
     "search.error.access.title" : {
-      "comment" : "Error title shown when the RapidAPI subscription is missing.",
+      "comment" : "Error title shown when the API denies access.",
       "extractionState" : "manual",
       "localizations" : {
         "de" : {

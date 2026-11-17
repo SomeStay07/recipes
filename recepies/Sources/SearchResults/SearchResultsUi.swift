@@ -114,8 +114,20 @@ struct SearchResultsUi: View {
                         action: {}
                     )
                 }
+                attribution
             }
             .padding(.top, 4)
+        }
+    }
+    
+    // Бесплатный план Spoonacular просит ссылку на сервис
+    @ViewBuilder
+    private var attribution: some View {
+        if let url = URL(string: "https://spoonacular.com/food-api") {
+            Link("search.attribution", destination: url)
+                .font(.caption)
+                .foregroundColor(.label.secondary)
+                .padding(.vertical, 16)
         }
     }
     
@@ -140,6 +152,7 @@ struct SearchResultsUi: View {
             title: "search.empty.title",
             subtitle: "search.empty.subtitle"
         )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     // MARK: - Error

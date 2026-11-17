@@ -12,7 +12,7 @@ extension Bundle: InfoDictionaryProvider {}
 
 enum ApiKeyProvider {
     
-    private static let placeholder = "PUT_YOUR_RAPIDAPI_KEY_HERE"
+    private static let placeholder = "PUT_YOUR_SPOONACULAR_KEY_HERE"
     
     static var spoonacular: String? {
         key(for: "SpoonacularApiKey")

@@ -11,7 +11,7 @@ protocol RecipeSearchService {
 final class SpoonacularSearchService: RecipeSearchService {
     
     private enum Constants {
-        static let host = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+        static let host = "api.spoonacular.com"
         static let path = "/recipes/complexSearch"
         static let resultsPerPage = 20
     }
@@ -51,10 +51,7 @@ private extension SpoonacularSearchService {
                 URLQueryItem(name: "query", value: query),
                 URLQueryItem(name: "number", value: String(Constants.resultsPerPage))
             ],
-            headers: [
-                "X-RapidAPI-Key": apiKey,
-                "X-RapidAPI-Host": Constants.host
-            ]
+            headers: ["x-api-key": apiKey]
         )
     }
 }

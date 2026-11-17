@@ -159,7 +159,7 @@ final class SearchErrorMappingTests: XCTestCase {
 final class ApiKeyProviderTests: XCTestCase {
     
     func test_key_placeholderValue_returnsNil() {
-        let bundle = InfoDictionaryStub(value: "PUT_YOUR_RAPIDAPI_KEY_HERE")
+        let bundle = InfoDictionaryStub(value: "PUT_YOUR_SPOONACULAR_KEY_HERE")
         
         XCTAssertNil(ApiKeyProvider.key(for: "SpoonacularApiKey", bundle: bundle))
     }
