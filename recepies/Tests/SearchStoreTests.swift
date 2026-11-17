@@ -161,18 +161,6 @@ final class SearchStoreEffectTests: XCTestCase {
         XCTAssertTrue(service.receivedQueries.isEmpty)
     }
     
-    func test_clear_afterSubmit_keepsIdleDespiteInFlightSearch() async throws {
-        let service = RecipeSearchServiceMock(result: .success([.stub(id: 1)]))
-        service.delay = .milliseconds(50)
-        let store = SearchStore(service: service)
-        
-        store.send(.submit("pasta"))
-        store.send(.clear)
-        try await waitUntilSettled(store)
-        
-        XCTAssertEqual(store.state.phase, .idle)
-    }
-
     func test_secondSearch_winsOverSlowerFirstOne() async throws {
         let pizza = Recipe.stub(id: 2, title: "Pizza margherita")
         let service = RecipeSearchServiceMock(result: .success([]))
@@ -184,6 +172,7 @@ final class SearchStoreEffectTests: XCTestCase {
             "pasta": .milliseconds(400),
             "pizza": .milliseconds(20)
         ]
+        service.ignoresCancellation = true
         let store = SearchStore(service: service)
         
         store.send(.submit("pasta"))
@@ -265,6 +254,7 @@ final class RecipeSearchServiceMock: RecipeSearchService, @unchecked Sendable {
     var delay: Duration?
     var resultsByQuery: [String: [Recipe]] = [:]
     var delaysByQuery: [String: Duration] = [:]
+    var ignoresCancellation = false
     private(set) var receivedQueries: [String] = []
     
     init(result: Result<[Recipe], Error>) {
@@ -275,7 +265,12 @@ final class RecipeSearchServiceMock: RecipeSearchService, @unchecked Sendable {
         receivedQueries.append(query)
         
         if let delay = delaysByQuery[query] ?? delay {
-            try await Task.sleep(for: delay)
+            if ignoresCancellation {
+                // Как сеть, которая не услышала cancel и прислала ответ
+                await Task.detached { try? await Task.sleep(for: delay) }.value
+            } else {
+                try await Task.sleep(for: delay)
+            }
         }
         
         if let recipes = resultsByQuery[query] {

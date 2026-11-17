@@ -1,20 +1,6 @@
-import Foundation
 import ProjectDescription
 
-let secretsPath = "Configs/Secrets.xcconfig"
-
-let secretsConfigurations: [Configuration] = {
-    guard FileManager.default.fileExists(atPath: secretsPath) else {
-        return []
-    }
-
-    let xcconfig = Path.relativeToRoot(secretsPath)
-
-    return [
-        .debug(name: "Debug", xcconfig: xcconfig),
-        .release(name: "Release", xcconfig: xcconfig)
-    ]
-}()
+let baseConfig: Path = "Configs/Base.xcconfig"
 
 let project = Project(
     name: "recepies",
@@ -36,7 +22,10 @@ let project = Project(
             sources: ["recepies/Sources/**"],
             resources: ["recepies/Resources/**"],
             dependencies: [],
-            settings: .settings(configurations: secretsConfigurations)
+            settings: .settings(configurations: [
+                .debug(name: "Debug", xcconfig: baseConfig),
+                .release(name: "Release", xcconfig: baseConfig),
+            ])
         ),
         .target(
             name: "recepiesTests",
