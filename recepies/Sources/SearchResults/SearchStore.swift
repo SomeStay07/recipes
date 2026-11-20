@@ -148,10 +148,6 @@ private extension SearchStore {
                 guard Task.isCancelled == false else { return }
                 self?.send(.resultsLoaded(recipes))
             } catch {
-                // Свою отмену узнаём по флагу задачи: URLSession в этот момент
-                // бросает URLError.cancelled, и показывать его экрану нельзя.
-                // Отмена, которую мы не запускали, остаётся честной ошибкой:
-                // иначе экран навсегда застрянет на спиннере.
                 guard Task.isCancelled == false else { return }
                 
                 self?.send(.failed(SearchError(error)))
@@ -164,9 +160,6 @@ private extension SearchStore {
 
 extension SearchStore {
     
-    // Отмену приносят три разных типа: URLSession бросает URLError.cancelled,
-    // сетевой слой переводит его в NetworkError.cancelled, а sleep и прочие
-    // точки ожидания бросают CancellationError.
     nonisolated static func isCancellation(_ error: Error) -> Bool {
         switch error {
         case is CancellationError:

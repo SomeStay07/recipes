@@ -120,7 +120,6 @@ struct SearchResultsUi: View {
         }
     }
     
-    // Бесплатный план Spoonacular просит ссылку на сервис
     @ViewBuilder
     private var attribution: some View {
         if let url = URL(string: "https://spoonacular.com/food-api") {
