@@ -2,45 +2,76 @@ import Foundation
 
 final class NetworkServiceImpl: NetworkService {
     
-    private let path: String
+    private let session: URLSession
     private let cachePolicy: URLRequest.CachePolicy
     
     init(
-        path: String,
-        cachePolicy: URLRequest.CachePolicy = .returnCacheDataDontLoad
+        session: URLSession = .shared,
+        cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy
     ) {
-        self.path = path
+        self.session = session
         self.cachePolicy = cachePolicy
     }
     
-    func request() async throws -> Data {
-        guard let url = URL(string: path) else {
+    func request(_ type: RequestType) async throws -> Data {
+        guard let url = type.url else {
             throw NetworkError.badURL
         }
         
-        let request = URLRequest(
+        var request = URLRequest(
             url: url,
             cachePolicy: cachePolicy
         )
+        request.httpMethod = type.method.rawValue
         
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard isValid(with: response) else {
-            throw NetworkError.badResponse
+        for (field, value) in type.headers {
+            request.setValue(value, forHTTPHeaderField: field)
         }
+        
+        let data: Data
+        let response: URLResponse
+        
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch let error as URLError where error.code == .cancelled {
+            throw NetworkError.cancelled
+        } catch let error as URLError where error.code == .notConnectedToInternet {
+            throw NetworkError.noConnection
+        }
+        
+        try validate(response)
         
         return data
     }
     
-    func decode<T: Codable>(from data: Data) throws -> T {
+    func decode<T: Decodable>(from data: Data) throws -> T {
         let decoder = JSONDecoder()
         
-        return try decoder.decode(T.self, from: data)
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw NetworkError.decoding
+        }
     }
     
-    func isValid(with response: URLResponse) -> Bool {
-        guard let response = response as? HTTPURLResponse else { return false }
+    func validate(_ response: URLResponse) throws {
+        guard let response = response as? HTTPURLResponse else {
+            throw NetworkError.badResponse
+        }
         
-        return response.statusCode ~= 200
+        switch response.statusCode {
+        case 200..<300:
+            return
+        case 401:
+            throw NetworkError.unauthorized
+        case 403:
+            throw NetworkError.forbidden
+        case 402:
+            throw NetworkError.quotaExceeded
+        case 429:
+            throw NetworkError.rateLimited
+        default:
+            throw NetworkError.badResponse
+        }
     }
 }

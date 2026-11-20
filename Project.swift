@@ -1,5 +1,7 @@
 import ProjectDescription
 
+let baseConfig: Path = "Configs/Base.xcconfig"
+
 let project = Project(
     name: "recepies",
     targets: [
@@ -14,11 +16,16 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "SpoonacularApiKey": "$(SPOONACULAR_API_KEY)",
                 ]
             ),
             sources: ["recepies/Sources/**"],
             resources: ["recepies/Resources/**"],
-            dependencies: []
+            dependencies: [],
+            settings: .settings(configurations: [
+                .debug(name: "Debug", xcconfig: baseConfig),
+                .release(name: "Release", xcconfig: baseConfig),
+            ])
         ),
         .target(
             name: "recepiesTests",

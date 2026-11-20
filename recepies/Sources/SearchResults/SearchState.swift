@@ -3,20 +3,25 @@ import Foundation
 struct SearchState: Equatable {
     
     let history: [String]
+    let query: String
     let phase: Phase
     
     init(
         history: [String] = SearchState.mockHistory,
+        query: String = "",
         phase: Phase = .idle
     ) {
         self.history = history
+        self.query = query
         self.phase = phase
     }
     
     enum Phase: Equatable {
         case idle
-        case loaded([String])
+        case loading
+        case loaded([Recipe])
         case empty
+        case failed(SearchError)
     }
 }
 
