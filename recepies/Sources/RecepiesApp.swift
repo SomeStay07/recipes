@@ -1,0 +1,53 @@
+import SwiftUI
+
+@main
+struct RecepiesApp: App {
+    
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
+    @ObservedObject private var languageManager = LanguageManager.shared
+    @ObservedObject private var themeManager = ThemeManager.shared
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentApp()
+                .environmentObject(themeManager)
+                .environmentObject(languageManager)
+                .environment(\.locale, languageManager.selectedLanguage)
+        }
+    }
+    
+}
+
+struct ContentApp: View {
+    
+    @StateObject private var settingsViewModel = SettingsViewModel(
+        cacheService: CacheServiceImpl()
+    )
+    
+    var body: some View {
+        TabView {
+            SearchResultsUi()
+            .badge(2)
+            .tabItem { Label("tab.item.home", systemImage: "person.circle.fill") }
+            
+            Text(verbatim: "2")
+            .tabItem { Label("tab.item.discover", systemImage: "person.circle.fill") }
+
+            Text(verbatim: "3")
+            .tabItem {
+                Label("tab.item.favorites", systemImage: "bookmark.fill")
+            }
+
+            SettingsView(viewModel: settingsViewModel)
+            .tabItem {
+                Label("tab.item.settings", systemImage: "person.circle.fill")
+            }
+        }
+        .accentColor(.label.secondary)
+    }
+}
+
+#Preview {
+    ContentApp()
+}
